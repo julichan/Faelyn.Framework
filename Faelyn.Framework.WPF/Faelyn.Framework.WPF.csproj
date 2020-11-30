@@ -1,0 +1,19 @@
+<Project>
+    <Import Project="../Build/BaseDirectory.props"/>
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop"/>
+    <Import Project="../Build/BaseSettings.props"/>
+    <Import Project="../Build/CreatePackage.props"/>
+    
+    <PropertyGroup>
+        <TargetFrameworks>netcoreapp3.1;net48;net5-windows</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+        <Description>This library implements several basic mechanism missing in WPF. It makes your WPF days a lot easier.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Faelyn.Framework.Security\Faelyn.Framework.Security.csproj" />
+      <ProjectReference Include="..\Faelyn.Framework\Faelyn.Framework.csproj" />
+    </ItemGroup>
+
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop"/>
+</Project>

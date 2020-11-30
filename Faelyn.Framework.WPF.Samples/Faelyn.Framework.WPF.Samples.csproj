@@ -1,0 +1,22 @@
+﻿<Project>
+    <Import Project="../Build/BaseDirectory.props"/>
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop"/>
+    <Import Project="../Build/BaseSettings.props"/>
+    
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFrameworks>net5-windows;net48;netcoreapp3.1-windows</TargetFrameworks>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Faelyn.Framework.WPF\Faelyn.Framework.WPF.csproj" />
+      <ProjectReference Include="..\Faelyn.Framework\Faelyn.Framework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Resources\icon.png" />
+    </ItemGroup>
+
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop"/>
+</Project>

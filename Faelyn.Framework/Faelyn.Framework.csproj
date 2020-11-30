@@ -1,0 +1,20 @@
+<Project>
+    <Import Project="../Build/BaseDirectory.props"/>
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk"/>
+    <Import Project="../Build/BaseSettings.props"/>
+    <Import Project="../Build/CreatePackage.props"/>
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net5</TargetFrameworks>
+        <RootNamespace>Faelyn.Framework</RootNamespace>
+        <Description>This library contain simple code required by other faelyn framework libraries. It can also be used as a standalone to make new implementations.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="System.Runtime" Version="4.3.1" />
+        <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    </ItemGroup>
+    
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk"/>
+</Project>

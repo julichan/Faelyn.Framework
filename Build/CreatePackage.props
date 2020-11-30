@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat> 
+    <PackageVersion Condition="'$(PackageVersion)' == ''">$(InformationalVersion)</PackageVersion>
+    <Authors>Julichan</Authors>
+    <Copyrights>MIT Julichan</Copyrights>
+    <ProjectUrl>https://gitlab.faelyn.net/julichan/Fael</ProjectUrl>
+    <RepositoryUrl>http://nuget.org</RepositoryUrl>
+  </PropertyGroup>
+</Project>
