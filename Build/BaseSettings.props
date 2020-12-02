@@ -1,7 +1,6 @@
 <Project>
   <PropertyGroup>
     <Version Condition="'$(Version)' == ''">0.0.0.0</Version>
-    <InformationalVersion Condition="'$(InformationalVersion)' == ''">0.0.0-dev</InformationalVersion>
   </PropertyGroup>
   
   <Import Project="BaseSettings.User.props" Condition="Exists('BaseSettings.User.props')" />

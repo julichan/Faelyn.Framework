@@ -1,0 +1,14 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: 
+    name: mcr.microsoft.com/dotnet/sdk:5.0-nanoserver-2009
+  script:
+    - dotnet build Faelyn.sln
+  artifacts:
+    paths:
+      - /Build/tmp/out
+    expire_in: 1 month
+
