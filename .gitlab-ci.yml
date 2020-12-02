@@ -11,8 +11,8 @@ build:
   - windows
   - powershell
   script:
+    - echo $VERSION $CI_COMMIT_TAG $CI_JOB_ID
     - dotnet build Faelyn.sln --configuration Release /p:Version=$VERSION /p:PackageVersion=$PACKAGEVERSION
-  artifacts:
-    paths:
-      - ./Build/tmp/packages
-    expire_in: 1 month
+    - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+    - dotnet nuget push "Build/tmp/out/*.nupkg" --source gitlab
+    - dotnet nuget push "Build/tmp/out/*.snupkg" --source gitlab
