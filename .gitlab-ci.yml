@@ -1,17 +1,15 @@
 stages:
   - build
 
-job:
-  tags:
-    - windows
-    - shell
-
 build:
   stage: build
+  tags:
+  - windows
+  - shell
   script:
-    - dotnet build Faelyn.sln
+    - dotnet restore Faelyn.sln
+    - dotnet build --no-restore Faelyn.sln
   artifacts:
     paths:
-      - /Build/tmp/out
+      - ./Build/tmp/out
     expire_in: 1 month
-
