@@ -5,11 +5,11 @@ build:
   stage: build
   tags:
   - windows
-  - shell
+  - powershell
   script:
     - dotnet restore Faelyn.sln
     - dotnet build --no-restore Faelyn.sln
   artifacts:
     paths:
-      - ./Build/tmp/out
+      - ./Build/tmp/packages
     expire_in: 1 month
