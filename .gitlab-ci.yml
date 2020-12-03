@@ -8,7 +8,7 @@ versioning:
     - windows
     - powershell
   script:
-    - $vs = ([xml] [IO.File]::ReadAllText("Build/version.config")).version_scheme
+    - $vs = ([xml] [IO.File]::ReadAllText("Build/version.config")).version
     - echo "SEMVER=$($vs.major).$($vs.minor).$CI_BUILD_ID" >> Build/build.env
   artifacts:
     reports:
