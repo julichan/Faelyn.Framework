@@ -1,5 +1,18 @@
 stages:
+  - versioning
   - build
+
+versioning:
+  stage: versioning
+  tags:
+    - windows
+    - powershell
+  script:
+    - $vs = ([xml] [IO.File]::ReadAllText("Build/version.config")).version_scheme
+    - echo "SEMVER=$($vs.major).$($vs.minor).$CI_BUILD_ID" >> Build/build.env
+  artifacts:
+    reports:
+      dotenv: Build/build.env
 
 build:
   stage: build
@@ -7,13 +20,11 @@ build:
    - windows
    - dotnet
    - powershell
-  before_script:
-    - export "CI_JOB_SECOFDAY=$([System.Convert]::ToInt32((Get-Date).TimeOfDay.TotalSeconds))"
-    - export "CI_JOB_SEMVER=$(Get-Date yy.mm.dd)"
-    - export "CI_JOB_VERSION=$CI_JOB_SEMVER.$CI_JOB_SECOFDAY"
-    - echo $CI_JOB_VERSION
   script:
-    - dotnet build Faelyn.sln --configuration Release /p:Version=$VERSION /p:PackageVersion=$PACKAGEVERSION
+    - dotnet build Faelyn.sln --configuration Release /p:Version=$SEMVER /p:PackageVersion=$SEMVER
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
     - dotnet nuget push "Build/tmp/out/*.nupkg" --source gitlab
     - dotnet nuget push "Build/tmp/out/*.snupkg" --source gitlab
+  needs:
+    - job: versioning
+      artifacts: true
