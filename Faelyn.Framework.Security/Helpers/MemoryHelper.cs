@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Faelyn.Framework.Security.Helpers
 {

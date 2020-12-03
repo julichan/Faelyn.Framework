@@ -13,7 +13,7 @@ build:
   before_script:
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
-    - dotnet build Faelyn.sln --configuration Release /p:Version=$SEMVER /p:PackageVersion=$SEMVER
-  after_script:
+    - dotnet build Faelyn.sln -c Release /p:Version=$SEMVER /p:PackageVersion=$SEMVER
     - dotnet nuget push "Build/tmp/out/*.nupkg" --source gitlab
     - dotnet nuget push "Build/tmp/out/*.snupkg" --source gitlab
+    
