@@ -7,13 +7,16 @@ variables:
 build:
   stage: build
   tags:
-   - windows
-   - dotnet
-   - powershell
+    - windows
+    - dotnet
+    - powershell
   before_script:
+    - dotnet nuget remove source --name gitlab
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
     - dotnet build Faelyn.sln -c Release /p:Version=$SEMVER /p:PackageVersion=$SEMVER
     - dotnet nuget push "Build/tmp/out/*.nupkg" --source gitlab
     - dotnet nuget push "Build/tmp/out/*.snupkg" --source gitlab
+  after_script:
+    - dotnet nuget remove source --name gitlab
     
