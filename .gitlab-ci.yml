@@ -8,11 +8,11 @@ versioning:
     - windows
     - powershell
   script:
-    - $vs = ([xml] [IO.File]::ReadAllText("Build/version.config")).version
-    - echo "SEMVER=$($vs.major).$($vs.minor).$CI_BUILD_ID" >> Build/build.env
+    - $vs = ([xml] [IO.File]::ReadAllText("$CI_PROJECT_PATH/Build/version.config")).version
+    - echo "SEMVER=$($vs.major).$($vs.minor).$CI_BUILD_ID" >> build.env
   artifacts:
     reports:
-      dotenv: Build/build.env
+      dotenv: build.env
 
 build:
   stage: build
