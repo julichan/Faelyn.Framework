@@ -37,6 +37,7 @@ build:
   before_script:
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
+    - echo "Version is $env:CI_ASMVER $env:CI_SEMVER"
     - dotnet restore Faelyn.sln
     - dotnet build Faelyn.sln --no-restore -c Release /p:Version=$env:CI_ASMVER /p:InformationalVersion=$env:CI_SEMVER /p:PackageVersion=$env:CI_SEMVER
   after_script:
