@@ -35,7 +35,6 @@ restore:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
   before_script:
-    - dotnet nuget remove source gitlab
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
     - dotnet restore Faelyn.sln -c Release /p:Version=$env:CI_ASMVER /p:InformationalVersion=$env:CI_SEMVER /p:PackageVersion=$env:CI_SEMVER
@@ -74,7 +73,6 @@ deploy:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
   before_script:
-    - dotnet nuget remove source gitlab
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
     - dotnet nuget push "Build/tmp/packages/*.nupkg" --source gitlab
