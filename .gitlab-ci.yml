@@ -15,13 +15,12 @@ setup:
   image: bash:latest
   script:
     - |
-      NOW=$(date +"%Y%m%d")
-      echo "CI_ASMVER=$CI_BASEVER.$NOW" >> build.env
+      echo "CI_ASMVER=$CI_BASEVER.$CI_PIPELINE_ID" >> build.env
       if [[ -n $CI_COMMIT_TAG ]]; then
         echo "CI_SEMVER=$CI_BASEVER" >> build.env
       else
         BRANCHNAME=$(echo "$CI_COMMIT_BRANCH" | sed "s/\//-/g")
-        echo "CI_SEMVER=$CI_BASEVER-$BRANCHNAME-$CI_BUILD_ID" >> build.env
+        echo "CI_SEMVER=$CI_BASEVER-$BRANCHNAME-$CI_PIPELINE_ID" >> build.env
       fi
   artifacts:
     reports:
