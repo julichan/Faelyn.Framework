@@ -39,7 +39,7 @@ build:
   script:
     - echo "Version is $env:CI_ASMVER $env:CI_SEMVER"
     - dotnet restore Faelyn.sln
-    - dotnet build Faelyn.sln --no-restore -c Release "/p:Version=$($env:env:CI_ASMVER)" "/p:InformationalVersion=$($env:env:CI_SEMVER)" "/p:PackageVersion=$($env:CI_SEMVER)"
+    - dotnet build Faelyn.sln --no-restore -c Release "/p:Version=$($env:CI_ASMVER)" "/p:InformationalVersion=$($env:CI_SEMVER)" "/p:PackageVersion=$($env:CI_SEMVER)"
   after_script:
     - dotnet nuget remove source gitlab
   artifacts:
