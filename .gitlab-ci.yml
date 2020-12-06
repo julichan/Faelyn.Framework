@@ -28,8 +28,8 @@ setup:
       dotenv: build.env
     expire_in: 1 week
 
-restore:
-  stage: restore
+build:
+  stage: build
   tags:
     - windows
     - dotnet
@@ -38,29 +38,15 @@ restore:
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
     - dotnet restore Faelyn.sln
+    - dotnet build Faelyn.sln --no-restore -c Release /p:Version=$env:CI_ASMVER /p:InformationalVersion=$env:CI_SEMVER /p:PackageVersion=$env:CI_SEMVER
   after_script:
     - dotnet nuget remove source gitlab
-  artifacts:
-    paths:
-      - Build/libs
-    expire_in: 1 week
-
-build:
-  stage: build
-  tags:
-    - windows
-    - dotnet
-    - powershell
-  script:
-    - dotnet build Faelyn.sln --no-restore -c Release /p:Version=$env:CI_ASMVER /p:InformationalVersion=$env:CI_SEMVER /p:PackageVersion=$env:CI_SEMVER
   artifacts:
     paths:
       - Build/tmp/packages
     expire_in: 1 week
   needs:
     - job: setup
-      artifacts: true
-    - job: restore
       artifacts: true
     
 deploy:
