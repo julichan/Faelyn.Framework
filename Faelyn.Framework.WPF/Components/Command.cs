@@ -7,7 +7,7 @@ namespace Faelyn.Framework.WPF.Components
     /// <summary>
     /// UI Base command
     /// </summary>
-    public class Command : ICommandRequiry, ICommandRelay, ICommand
+    public class Command : ICommandBridge, ICommandRelay, ICommand
     {
         #region Fields
 
@@ -18,7 +18,7 @@ namespace Faelyn.Framework.WPF.Components
 
         #region Life cycle
 
-        public Command(Action<object> execute, Func<object, bool> canExecute = null, bool bindToCommandManager = false)
+        private Command(Action<object> execute, Func<object, bool> canExecute = null, bool bindToCommandManager = false)
         {
             _execute = execute;
             _canExecute = canExecute;
@@ -27,6 +27,17 @@ namespace Faelyn.Framework.WPF.Components
             {
                 BindCommandManager();
             }
+        }
+
+        public static ICommandBridge CreateCommandBridge(Action<object> execute, Func<object, bool> canExecute = null,
+            bool bindToCommandManager = false)
+        {
+            return new Command(execute, canExecute, bindToCommandManager);
+        }
+        
+        public static ICommandRelay CreateCommandRelay(Action<object> execute, Func<object, bool> canExecute = null)
+        {
+            return new Command(execute, canExecute, false);
         }
 
         #endregion Life cycle

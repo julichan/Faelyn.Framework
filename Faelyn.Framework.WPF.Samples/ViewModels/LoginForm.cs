@@ -67,7 +67,7 @@ namespace Faelyn.Framework.WPF.Samples.ViewModels
             PasswordBoxHandler = new PasswordBoxHandler(dataGuard);
             PasswordBoxHandler.ModelDataGuard.OnSensibleDataChanged += OnSensibleDataChanged;
             
-            LoginCommand = new Command(ExecuteLogin, CanExecuteLogin);
+            LoginCommand = Command.CreateCommandRelay(ExecuteLogin, CanExecuteLogin);
         }
 
         private void OnSensibleDataChanged(object sender, EventArgs e)
