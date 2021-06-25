@@ -1,10 +1,10 @@
-﻿namespace Faelyn.Framework.Helpers
+﻿using System.Diagnostics;
+
+namespace Faelyn.Framework.Helpers
 {
     public static class MemoryHelper
     {
-        #if !DEBUG
         [DebuggerHidden]
-        #endif
         public static void OverwriteString(ref string iStr)
         {
             if (iStr != null)
@@ -23,9 +23,7 @@
             }
         }
         
-        #if !DEBUG
         [DebuggerHidden]
-        #endif
         public static void OverwriteBytes(ref byte[] iAry)
         {
             if (iAry != null)
