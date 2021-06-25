@@ -10,12 +10,12 @@ namespace Faelyn.Framework.Components
         private ISerializer _serializer;
         private Encoding _encoding;
         private string _filepath;
-        
+
         public DataObjectFile(string filepath, ISerializer serializer, Encoding encoding = null)
         {
             _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
             _filepath = filepath ?? throw new ArgumentNullException(nameof(filepath));
-            _encoding = encoding ?? Encoding.Default;
+            _encoding = encoding ?? Encoding.UTF8;
         }
 
         public TState Load()

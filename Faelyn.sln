@@ -6,7 +6,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faelyn.Framework.WPF", "Fae
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faelyn.Framework.WPF.Samples", "Faelyn.Framework.WPF.Samples\Faelyn.Framework.WPF.Samples.csproj", "{A90BE6CF-6609-4FED-B3DB-F194CC0BB671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faelyn.Framework.Security", "Faelyn.Framework.Security\Faelyn.Framework.Security.csproj", "{D8066DD3-5EBA-4336-B959-D2AF43AD4E4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faelyn.Framework.Windows", "Faelyn.Framework.Windows\Faelyn.Framework.Windows.csproj", "{23877B3B-2A0A-4519-ACF8-DC153770DBE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faelyn.Framework.Serialization.Json", "Faelyn.Framework.Serialization.Json\Faelyn.Framework.Serialization.Json.csproj", "{9E7B5E2A-46F1-4F1D-9795-5C1C559E1D77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +28,13 @@ Global
 		{A90BE6CF-6609-4FED-B3DB-F194CC0BB671}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A90BE6CF-6609-4FED-B3DB-F194CC0BB671}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A90BE6CF-6609-4FED-B3DB-F194CC0BB671}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D8066DD3-5EBA-4336-B959-D2AF43AD4E4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D8066DD3-5EBA-4336-B959-D2AF43AD4E4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D8066DD3-5EBA-4336-B959-D2AF43AD4E4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D8066DD3-5EBA-4336-B959-D2AF43AD4E4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23877B3B-2A0A-4519-ACF8-DC153770DBE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23877B3B-2A0A-4519-ACF8-DC153770DBE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23877B3B-2A0A-4519-ACF8-DC153770DBE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23877B3B-2A0A-4519-ACF8-DC153770DBE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E7B5E2A-46F1-4F1D-9795-5C1C559E1D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E7B5E2A-46F1-4F1D-9795-5C1C559E1D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E7B5E2A-46F1-4F1D-9795-5C1C559E1D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E7B5E2A-46F1-4F1D-9795-5C1C559E1D77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

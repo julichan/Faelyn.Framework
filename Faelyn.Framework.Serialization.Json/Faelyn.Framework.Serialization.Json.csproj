@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netstandard2.1;net5</TargetFrameworks>
+        <Description>This library implements the base framework json serializer. It is separated because it imposes System.Text.Json package.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Faelyn.Framework\Faelyn.Framework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Text.Json" Version="5.0.2" />
+    </ItemGroup>
+    
+</Project>

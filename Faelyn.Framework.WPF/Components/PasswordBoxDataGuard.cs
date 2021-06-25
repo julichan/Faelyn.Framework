@@ -4,7 +4,6 @@ using System.Text;
 using System.Windows.Controls;
 using Faelyn.Framework.Helpers;
 using Faelyn.Framework.Interfaces;
-using Faelyn.Framework.Security.Helpers;
 
 namespace Faelyn.Framework.WPF.Components
 {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using Faelyn.Framework.Components;
 using Faelyn.Framework.Interfaces;
-using Faelyn.Framework.Security.Components;
+using Faelyn.Framework.Windows.Components;
 using Faelyn.Framework.WPF.Components;
 using Faelyn.Framework.WPF.Interfaces;
 
@@ -38,8 +38,8 @@ namespace Faelyn.Framework.WPF.Samples.ViewModels
                 LoginCommand?.RaiseCanExecuteChanged(); }
         }
 
-        private ICommandBridge _loginCommand = null;
-        public ICommandBridge LoginCommand
+        private ICommandRelay _loginCommand = null;
+        public ICommandRelay LoginCommand
         {
             get => _loginCommand;
             set => SetProperty(ref _loginCommand, value);

@@ -1,0 +1,21 @@
+<Project>
+    <Import Project="../Build/BaseDirectory.props" />
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+    <Import Project="../Build/BaseSettings.props" />
+    <Import Project="../Build/CreatePackage.props" />
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0-windows;netstandard2.1-windows;net5-windows</TargetFrameworks>
+        <Description>This library contains implemented objects that are only useable in windows.</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Faelyn.Framework\Faelyn.Framework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="5.0.0" />
+    </ItemGroup>
+
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

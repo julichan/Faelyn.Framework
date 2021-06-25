@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Text;
 using Faelyn.Framework.Helpers;
 using Faelyn.Framework.Interfaces;
-using Faelyn.Framework.Security.Helpers;
 
-namespace Faelyn.Framework.Security.Components
+namespace Faelyn.Framework.Windows.Components
 {
     public sealed class SecureStringDataGuard : ISensibleDataGuard<SecureString>, IDisposable
     {
@@ -26,12 +26,14 @@ namespace Faelyn.Framework.Security.Components
         
         #region Life cycle
 
+        [DebuggerHidden]
         public SecureStringDataGuard(Encoding encoding)
         {
             _encoding = encoding ?? throw new ArgumentNullException(nameof(encoding));
             EncryptedData = new SecureString();
         }
 
+        [DebuggerHidden]
         public void Dispose()
         {
             EncryptedData.Dispose();
@@ -41,6 +43,7 @@ namespace Faelyn.Framework.Security.Components
         
         #region Methods
 
+        [DebuggerHidden]
         public void ProtectRawAction(Action<byte[]> action)
         {
             var iPtr = IntPtr.Zero;
@@ -66,6 +69,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public void ProtectStringAction(Action<string> action)
         {
             var iPtr = IntPtr.Zero;
@@ -81,11 +85,12 @@ namespace Faelyn.Framework.Security.Components
             {
                 MemoryHelper.OverwriteString(ref iStr);
 
-                if (iPtr == IntPtr.Zero)
+                if (iPtr != IntPtr.Zero)
                     Marshal.ZeroFreeBSTR(iPtr);
             }
         }
 
+        [DebuggerHidden]
         public TReturn ProtectRawFunction<TReturn>(Func<byte[], TReturn> func)
         {
             var iPtr = IntPtr.Zero;
@@ -106,11 +111,12 @@ namespace Faelyn.Framework.Security.Components
             {
                 MemoryHelper.OverwriteBytes(ref iAry);
 
-                if (iPtr == IntPtr.Zero)
+                if (iPtr != IntPtr.Zero)
                     Marshal.ZeroFreeGlobalAllocUnicode(iPtr);
             }
         }
 
+        [DebuggerHidden]
         public TReturn ProtectStringFunction<TReturn>(Func<string, TReturn> func)
         {
             var iPtr = IntPtr.Zero;
@@ -126,11 +132,12 @@ namespace Faelyn.Framework.Security.Components
             {
                 MemoryHelper.OverwriteString(ref iStr);
 
-                if (iPtr == IntPtr.Zero)
+                if (iPtr != IntPtr.Zero)
                     Marshal.ZeroFreeBSTR(iPtr);
             }
         }
 
+        [DebuggerHidden]
         public void SetRawData(Func<byte[]> input)
         {
             byte[] iAry = null;
@@ -148,6 +155,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public void SetStringData(Func<string> input)
         {
             string iStr = null;
@@ -164,6 +172,7 @@ namespace Faelyn.Framework.Security.Components
             OnSensibleDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        [DebuggerHidden]
         public void ClearData()
         {
             EncryptedData.Clear();

@@ -14,8 +14,8 @@ namespace Faelyn.Framework.Services
     {
         #region Fields
 
-        private ReaderWriterLockSlim _syncLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
-        private Dictionary<Type, List<WeakReference>> _registrations = new Dictionary<Type, List<WeakReference>>();
+        private readonly ReaderWriterLockSlim _syncLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
+        private readonly Dictionary<Type, List<WeakReference>> _registrations = new Dictionary<Type, List<WeakReference>>();
 
         #endregion
 

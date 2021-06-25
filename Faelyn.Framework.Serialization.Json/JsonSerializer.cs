@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Faelyn.Framework.Interfaces;
 
-namespace Faelyn.Framework.Components.Serializers
+namespace Faelyn.Framework.Serialization.Json
 {
     public class JsonSerializer : ISerializer
     {
@@ -32,7 +32,7 @@ namespace Faelyn.Framework.Components.Serializers
         
         public TState Deserialize<TState>(byte[] json, Encoding encoding)
         {
-            if (!Encoding.UTF8.Equals(encoding))
+            if (encoding != null && !Encoding.UTF8.Equals(encoding))
             {
                 throw new ArgumentOutOfRangeException(nameof(encoding));
             }
@@ -51,7 +51,7 @@ namespace Faelyn.Framework.Components.Serializers
         
         public byte[] Serialize<TState>(TState state, Encoding encoding)
         {
-            if (!Encoding.UTF8.Equals(encoding))
+            if (encoding != null && !Encoding.UTF8.Equals(encoding))
             {
                 throw new ArgumentOutOfRangeException(nameof(encoding));
             }

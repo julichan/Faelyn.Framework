@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-
-namespace Faelyn.Framework.Security.Helpers
+﻿namespace Faelyn.Framework.Helpers
 {
     public static class MemoryHelper
     {
@@ -18,8 +15,8 @@ namespace Faelyn.Framework.Security.Helpers
                     {
                         for (int i = 0; i < iStr.Length; ++i)
                         {
-                            ptr[i] = Char.MaxValue;
-                            ptr[i] = Char.MinValue;
+                            ptr[i] = char.MaxValue;
+                            ptr[i] = char.MinValue;
                         }
                     }
                 }
@@ -39,8 +36,8 @@ namespace Faelyn.Framework.Security.Helpers
                     {
                         for (int i = 0; i < iAry.Length; ++i)
                         {
-                            ptr[i] = Byte.MaxValue;
-                            ptr[i] = Byte.MinValue;
+                            ptr[i] = byte.MaxValue;
+                            ptr[i] = byte.MinValue;
                         }
                     }
                 }

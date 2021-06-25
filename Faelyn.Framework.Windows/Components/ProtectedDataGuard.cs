@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using Faelyn.Framework.Helpers;
 using Faelyn.Framework.Interfaces;
-using Faelyn.Framework.Security.Helpers;
 
-namespace Faelyn.Framework.Security.Components
+namespace Faelyn.Framework.Windows.Components
 {
     public sealed class ProtectedDataGuard : ISensibleDataGuard<byte[]>
     {
@@ -20,14 +21,14 @@ namespace Faelyn.Framework.Security.Components
         
         #region Properties
 
-        public byte[] EncryptedData { get => _encryptedData; }
-        
+        public byte[] EncryptedData => _encryptedData;
+
         public event EventHandler OnSensibleDataChanged;
         
         #endregion
         
         #region Life cycle
-
+        
         public ProtectedDataGuard(DataProtectionScope scope, Encoding encoding)
         {
             _scope = scope;
@@ -35,6 +36,7 @@ namespace Faelyn.Framework.Security.Components
             _protectedEntropy = null;
         }
         
+        [DebuggerHidden]
         public ProtectedDataGuard(DataProtectionScope scope, Encoding encoding, Func<byte[]> optionalEntropy)
             : this(scope, encoding)
         {
@@ -43,6 +45,7 @@ namespace Faelyn.Framework.Security.Components
             _protectedEntropy.SetRawData(optionalEntropy);
         }
         
+        [DebuggerHidden]
         public ProtectedDataGuard(DataProtectionScope scope, Encoding encoding, Func<string> optionalEntropy)
             : this(scope, encoding)
         {
@@ -55,6 +58,7 @@ namespace Faelyn.Framework.Security.Components
         
         #region Methods
 
+        [DebuggerHidden]
         public void ProtectRawAction(Action<byte[]> action)
         {
             if (!IsInitialized()) return;
@@ -73,6 +77,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public void ProtectStringAction(Action<string> action)
         {
             if (!IsInitialized()) return;
@@ -91,6 +96,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public TReturn ProtectRawFunction<TReturn>(Func<byte[], TReturn> func)
         {
             if (!IsInitialized()) return default(TReturn);
@@ -110,6 +116,7 @@ namespace Faelyn.Framework.Security.Components
             
         }
 
+        [DebuggerHidden]
         public TReturn ProtectStringFunction<TReturn>(Func<string, TReturn> func)
         {
             if (!IsInitialized()) return default(TReturn);
@@ -128,6 +135,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public void SetRawData(Func<byte[]> input)
         {
             byte[] iAry = null;
@@ -146,6 +154,7 @@ namespace Faelyn.Framework.Security.Components
             OnSensibleDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        [DebuggerHidden]
         public void SetStringData(Func<string> input)
         {
             string iStr = null;
@@ -163,6 +172,7 @@ namespace Faelyn.Framework.Security.Components
             }
         }
 
+        [DebuggerHidden]
         public void ClearData()
         {
             MemoryHelper.OverwriteBytes(ref _encryptedData);
@@ -170,6 +180,7 @@ namespace Faelyn.Framework.Security.Components
             OnSensibleDataChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        [DebuggerHidden]
         public override string ToString()
         {
             if (!IsInitialized())
@@ -177,6 +188,7 @@ namespace Faelyn.Framework.Security.Components
             return Convert.ToBase64String(EncryptedData);
         }
 
+        [DebuggerHidden]
         private bool IsInitialized()
         {
             return EncryptedData != null && EncryptedData.Length > 0;

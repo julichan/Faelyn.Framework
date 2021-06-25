@@ -7,7 +7,7 @@ namespace Faelyn.Framework.WPF.Components
     /// <summary>
     /// UI Base command
     /// </summary>
-    public class Command : ICommandControl, ICommandBridge, ICommand
+    public class Command : ICommandRequiry, ICommandRelay, ICommand
     {
         #region Fields
 

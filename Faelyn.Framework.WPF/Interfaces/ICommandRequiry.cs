@@ -5,7 +5,7 @@ namespace Faelyn.Framework.WPF.Interfaces
     /// <summary>
     /// An interface extending the ICommand interface
     /// </summary>
-    public interface ICommandControl : ICommand
+    public interface ICommandRequiry : ICommand
     {
         #region Methods
 

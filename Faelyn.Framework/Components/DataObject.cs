@@ -13,7 +13,7 @@ namespace Faelyn.Framework.Components
         #region Fields
 
         private readonly IDataObjectSource<TState> _source;
-        private readonly DataObjectStore<TState> _store;
+        private readonly DataObjectRef<TState> _ref;
         private bool _hasStateChanged = true;
 
         #endregion
@@ -23,7 +23,7 @@ namespace Faelyn.Framework.Components
         /// <summary>
         /// This property contains the data source.
         /// </summary>
-        public IDataObjectStore<TState> Store => _store;
+        public IDataObjectRef<TState> Ref => _ref;
         
         /// <summary>
         /// This property tells whether non persisted changes are present or not.
@@ -45,16 +45,16 @@ namespace Faelyn.Framework.Components
         {
             if (data == null) throw new ArgumentNullException(nameof(data));
             _source = source ?? throw new ArgumentNullException(nameof(source));
-            _store = new DataObjectStore<TState>(data);
+            _ref = new DataObjectRef<TState>(data);
         }
         
         /// <summary>
         /// Construct the object
         /// </summary>
-        public DataObject(IDataObjectSource<TState> source, DataObjectStore<TState> store)
+        public DataObject(IDataObjectSource<TState> source, DataObjectRef<TState> @ref)
         {
             _source = source ?? throw new ArgumentNullException(nameof(source));
-            _store = store ?? throw new ArgumentNullException(nameof(store));
+            _ref = @ref ?? throw new ArgumentNullException(nameof(@ref));
         }
 
         #endregion Life cycle
@@ -67,7 +67,7 @@ namespace Faelyn.Framework.Components
         /// </summary>
         public void Load()
         {
-            _store.CurrentData = _source.Load();
+            _ref.CurrentData = _source.Load();
             HasStateChanged = false;
         }
 
@@ -76,7 +76,7 @@ namespace Faelyn.Framework.Components
         /// </summary>
         public void Save()
         {
-            _source.Save(Store.CurrentData);
+            _source.Save(Ref.CurrentData);
             HasStateChanged = false;
         }
 

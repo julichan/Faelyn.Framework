@@ -2,7 +2,6 @@
 
 namespace Faelyn.Framework.Helpers
 {
-
     public sealed class DisposeHelper : IDisposable
     {
         private bool _isDisposed = false;
