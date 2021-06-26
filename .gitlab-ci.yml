@@ -13,11 +13,10 @@ job_version:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
-    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
+    - echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
-    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
     - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
     - pwsh -c ./Build/scripts/Define-Version.ps1 "${CI_COMMIT_BRANCH}" "${CI_COMMIT_SHORT_SHA}" "${CI_PIPELINE_ID}" "build.env"
