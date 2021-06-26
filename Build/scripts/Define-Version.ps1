@@ -37,7 +37,7 @@ switch -regex ($branch) {
 
 if ([string]::IsNullOrEmpty($verFile)) {
     git fetch --tags 2>&1
-    $tagVersion = git describe --exact-match --abbrev=0 --match "v*" 2>&1
+    $tagVersion = git describe --abbrev=0 --match "v*" 2>&1
     $versionText = $tagVersion.ToString().Trim(" ", "`r", "`n");
 } else {
     $fileVersion = if (Test-Path $verFile -PathType leaf) { Get-Content $verFile } else { "" }
