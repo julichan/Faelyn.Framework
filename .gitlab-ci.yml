@@ -1,6 +1,7 @@
 stages:
   - init
   - build
+  - deploy
   - release
 
 Get versions:
@@ -20,7 +21,7 @@ Get versions:
     expire_in: 1 week
 
 Restore project:
-  stage: build
+  stage: init
   tags:
     - windows
     - dotnet
@@ -57,7 +58,7 @@ Build project:
       artifacts: true
 
 Push build packages:
-  stage: build
+  stage: deploy
   tags:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
