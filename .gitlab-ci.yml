@@ -11,9 +11,9 @@ job_version:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine
   before_script:
-    - 'which ssh-agent || ( apk add --update --no-cache openssh-client )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GIT_SSH_PRIVATE_KEY")
+    - 'which ssh-agent || ( apk add --update --no-cache openssh )'
+    - eval "$(ssh-agent -s)"
+    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
@@ -74,9 +74,9 @@ job_release_branch:
   rules:
     - if: $CI_COMMIT_TAG
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - ssh-add <(echo "$GIT_SSH_PRIVATE_KEY")
+    - 'which ssh-agent || ( apk add --update --no-cache openssh )'
+    - eval "$(ssh-agent -s)"
+    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
