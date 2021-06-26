@@ -13,6 +13,11 @@ job_version:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
+    - |
+      echo $'
+      line1
+      line2\n
+      line3'
     - | 
       GIT_SSH_PRIVATE_KEY=$'
       -----BEGIN OPENSSH PRIVATE KEY-----
