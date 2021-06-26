@@ -25,7 +25,7 @@ if ([string]::IsNullOrWhiteSpace($checkBranch)) {
     Write-Host "Creating release branch..."
     git checkout -qb $newBranch
     git push -q origin $newBranch
-    git checkout -q $branch
+    git checkout -q tags/$tid
     git branch -qD $newBranch
 } else {
     Write-Host "Branch already exists"
