@@ -11,22 +11,9 @@ job_version:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine
   before_script:
-    - 'which ssh-agent || ( apk add --update --no-cache openssh )'
-    - eval "$(ssh-agent -s)"
-    - | 
-      GIT_SSH_PRIVATE_KEY="-----BEGIN OPENSSH PRIVATE KEY-----
-      $GIT_SSH_PRIVATE_KEY1
-      $GIT_SSH_PRIVATE_KEY2
-      $GIT_SSH_PRIVATE_KEY3
-      $GIT_SSH_PRIVATE_KEY4
-      $GIT_SSH_PRIVATE_KEY5
-      -----END OPENSSH PRIVATE KEY-----"
-    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
-    - mkdir -p ~/.ssh
-    - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
-    - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
+    - git remote set-url origin "${GIT_RO_URL}"
   script:
     - pwsh -f ./Build/scripts/Define-Version.ps1 --% -bid "${CI_COMMIT_BRANCH}" -tid "${CI_COMMIT_TAG}" -mid "${CI_MERGE_REQUEST_ID}" -cid "${CI_COMMIT_SHORT_SHA}" -buildCounter "${CI_PIPELINE_ID}" -envFile "build.env"
   artifacts:
@@ -83,22 +70,9 @@ job_release_branch:
   rules:
     - if: $CI_COMMIT_TAG
   before_script:
-    - 'which ssh-agent || ( apk add --update --no-cache openssh )'
-    - eval "$(ssh-agent -s)"
-    - |  
-      GIT_SSH_PRIVATE_KEY="-----BEGIN OPENSSH PRIVATE KEY-----
-      $GIT_SSH_PRIVATE_KEY1
-      $GIT_SSH_PRIVATE_KEY2
-      $GIT_SSH_PRIVATE_KEY3
-      $GIT_SSH_PRIVATE_KEY4
-      $GIT_SSH_PRIVATE_KEY5
-      -----END OPENSSH PRIVATE KEY-----"
-    - echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
-    - mkdir -p ~/.ssh
-    - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
-    - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
+    - git remote set-url origin "${GIT_RO_URL}"
   script:
     - pwsh -f ./Build/scripts/Branch-Release.ps1 --% "${CI_COMMIT_TAG}"
 
