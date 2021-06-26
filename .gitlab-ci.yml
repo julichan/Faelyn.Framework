@@ -14,7 +14,7 @@ job_version:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
     - | 
-      GIT_SSH_PRIVATE_KEY='
+      GIT_SSH_PRIVATE_KEY=$'
       -----BEGIN OPENSSH PRIVATE KEY-----
       $GIT_SSH_PRIVATE_KEY1
       $GIT_SSH_PRIVATE_KEY2
@@ -87,7 +87,7 @@ job_release_branch:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
     - | 
-      GIT_SSH_PRIVATE_KEY='
+      GIT_SSH_PRIVATE_KEY=$'
       -----BEGIN OPENSSH PRIVATE KEY-----
       $GIT_SSH_PRIVATE_KEY1
       $GIT_SSH_PRIVATE_KEY2
