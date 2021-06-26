@@ -28,7 +28,7 @@ job_version:
     - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
     - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
-    - pwsh -c ./Build/scripts/Define-Version.ps1 -bid "${CI_COMMIT_BRANCH}" -tid "${CI_COMMIT_TAG}" -mid "${CI_MERGE_REQUEST_ID}" -cid "${CI_COMMIT_SHORT_SHA}" -buildCounter "${CI_PIPELINE_ID}" -envFile "build.env"
+    - pwsh -f ./Build/scripts/Define-Version.ps1 --% -bid "${CI_COMMIT_BRANCH}" -tid "${CI_COMMIT_TAG}" -mid "${CI_MERGE_REQUEST_ID}" -cid "${CI_COMMIT_SHORT_SHA}" -buildCounter "${CI_PIPELINE_ID}" -envFile "build.env"
   artifacts:
     reports:
       dotenv: build.env
@@ -100,6 +100,6 @@ job_release_branch:
     - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
     - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
-    - pwsh -c ./Build/scripts/Branch-Release.ps1 "${CI_COMMIT_TAG}"
+    - pwsh -f ./Build/scripts/Branch-Release.ps1 --% "${CI_COMMIT_TAG}"
 
 
