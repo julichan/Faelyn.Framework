@@ -4,7 +4,7 @@ stages:
   - deploy
   - release
 
-Get versions:
+Versions:
   stage: init
   tags:
     - docker
@@ -20,7 +20,7 @@ Get versions:
       dotenv: build.env
     expire_in: 1 week
 
-Restore project:
+Nuget cache:
   stage: init
   tags:
     - windows
@@ -36,7 +36,7 @@ Restore project:
     untracked: true
     expire_in: 1 week
 
-Build project:
+Nuget output:
   stage: build
   tags:
     - windows
@@ -51,12 +51,12 @@ Build project:
       - Build/packages/output
     expire_in: 1 week
   needs:
-    - job: Get versions
+    - job: Versions
       artifacts: true
-    - job: Restore project
+    - job: Nuget cache
       artifacts: true
 
-Push build packages:
+Gitlab publication:
   stage: deploy
   tags:
     - docker
@@ -69,10 +69,10 @@ Push build packages:
   after_script:
     - dotnet nuget remove source gitlab
   needs:
-    - job: Build project
+    - job: Nuget output
       artifacts: true
 
-Create release branch:
+Branch creation:
   stage: release
   tags:
     - docker
@@ -88,7 +88,7 @@ Create release branch:
   after_script:
     - git remote set-url origin "${GIT_RO_URL}"
 
-Push release packages:
+Release publication:
   stage: release
   tags:
     - docker
@@ -99,7 +99,7 @@ Push release packages:
   script:
     - dotnet nuget push "Build/packages/output/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${NUGET_PUBLIC_APIKEY}
   needs:
-    - job: Build project
+    - job: Nuget output
       artifacts: true
 
 
