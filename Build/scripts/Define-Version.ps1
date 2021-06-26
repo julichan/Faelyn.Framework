@@ -68,14 +68,14 @@ $shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $vers
 $standardVersion = -join ($shortVersion, ".", $buildCounter)
 $semanticVersion = -join ($shortVersion, $semName, $semMeta) 
 
-if ([string]::IsNullOrEmpty($envFile)) {
-    return @{ 
-        short = $shortVersion;
-        standard = $standardVersion;
-        semantic = $semanticVersion;
-    }
-} else {
+if (-not [string]::IsNullOrEmpty($envFile)) {
     Add-Content $envFile "CI_SHORT_VER=$shortVersion"
-    Add-Content $envFile "CI_ASSEMBLY_VER=$standardVersion"
+    Add-Content $envFile "CI_STANDARD_VER=$standardVersion"
     Add-Content $envFile "CI_SEMAMTIC_VER=$semanticVersion"
+}
+
+return @{ 
+    short = $shortVersion;
+    standard = $standardVersion;
+    semantic = $semanticVersion;
 }
