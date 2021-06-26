@@ -56,7 +56,7 @@ Nuget output:
     - job: Nuget cache
       artifacts: true
 
-Gitlab publication:
+Nuget Gitlab:
   stage: deploy
   tags:
     - docker
@@ -72,7 +72,7 @@ Gitlab publication:
     - job: Nuget output
       artifacts: true
 
-Branch creation:
+Branch release:
   stage: release
   tags:
     - docker
@@ -88,7 +88,7 @@ Branch creation:
   after_script:
     - git remote set-url origin "${GIT_RO_URL}"
 
-Release publication:
+Nuget release:
   stage: release
   tags:
     - docker
