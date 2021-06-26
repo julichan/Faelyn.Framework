@@ -75,5 +75,7 @@ job_release_branch:
     - git remote set-url origin "${GIT_RW_URL}"
   script:
     - pwsh -f ./Build/scripts/Branch-Release.ps1 --% "${CI_COMMIT_TAG}"
+  after_script:
+    - git remote set-url origin "${GIT_RO_URL}"
 
 
