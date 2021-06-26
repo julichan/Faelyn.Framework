@@ -17,6 +17,8 @@ $versionData = @{
 $shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $versionData.revision)).Trim(" ", "`r", "`n")
 
 $newBranch = "release/$shortVersion"
+
+git fetch -q 2>&1
 $checkBranch = git ls-remote --heads origin $newBranch 2>&1
 Write-Host "checked branch $newBranch result: $checkBranch"
 if ([string]::IsNullOrWhiteSpace($checkBranch)) {
