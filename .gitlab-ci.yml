@@ -17,6 +17,7 @@ job_version:
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
+    - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
     - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
     - pwsh -c ./Build/scripts/Define-Version.ps1 "${CI_COMMIT_BRANCH}" "${CI_COMMIT_SHORT_SHA}" "${CI_PIPELINE_ID}" "build.env"
@@ -56,8 +57,8 @@ job_deploy:
     - echo "Version is $env:CI_ASSEMBLY_VER $env:CI_SEMAMTIC_VER"
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
-    - dotnet nuget push "Build/tmp/packages/*.nupkg" --source gitlab
-    - dotnet nuget push "Build/tmp/packages/*.snupkg" --source gitlab
+    - dotnet nuget push "Build/packages/output/*.nupkg" --source gitlab
+    - dotnet nuget push "Build/packages/output/*.snupkg" --source gitlab
   after_script:
     - dotnet nuget remove source gitlab
   needs:
