@@ -1,11 +1,9 @@
 stages:
-  - version
-  - restore
+  - init
   - build
-  - deploy
   - release
 
-job_version:
+Get versions:
   stage: version
   tags:
     - docker
@@ -21,7 +19,24 @@ job_version:
       dotenv: build.env
     expire_in: 1 week
 
-job_build:
+Restore project:
+  stage: build
+  tags:
+    - windows
+    - dotnet
+    - powershell
+  before_script:
+    - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
+  script:
+    - dotnet restore Faelyn.sln
+  after_script:
+    - dotnet nuget remove source gitlab
+  artifacts:
+    paths:
+      - Build/packages/cache
+    expire_in: 1 week
+
+Build project:
   stage: build
   tags:
     - windows
@@ -29,27 +44,24 @@ job_build:
     - powershell
   before_script:
     - echo "Version is $env:CI_STANDARD_VER $env:CI_SEMAMTIC_VER"
-    - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
-    - dotnet restore Faelyn.sln
     - dotnet build Faelyn.sln --no-restore -c Release "/p:Version=$($env:CI_STANDARD_VER)" "/p:InformationalVersion=$($env:CI_SEMAMTIC_VER)" "/p:PackageVersion=$($env:CI_SEMAMTIC_VER)"
-  after_script:
-    - dotnet nuget remove source gitlab
   artifacts:
     paths:
       - Build/packages/output
     expire_in: 1 week
   needs:
-    - job: job_version
+    - job: Get versions
+      artifacts: true
+    - job: Restore project
       artifacts: true
 
-job_deploy:
-  stage: deploy
+Push build packages:
+  stage: build
   tags:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
   before_script:
-    - echo "Version is $env:CI_STANDARD_VER $env:CI_SEMAMTIC_VER"
     - dotnet nuget add source "$CI_SERVER_URL/api/v4/projects/$CI_PROJECT_ID/packages/nuget/index.json" --name gitlab --username gitlab-ci-token --password $CI_JOB_TOKEN --store-password-in-clear-text
   script:
     - dotnet nuget push "Build/packages/output/*.nupkg" --source gitlab
@@ -57,12 +69,10 @@ job_deploy:
   after_script:
     - dotnet nuget remove source gitlab
   needs:
-    - job: job_version
-      artifacts: true
-    - job: job_build
+    - job: Build project
       artifacts: true
 
-job_release_branch:
+Create release branch:
   stage: release
   tags:
     - docker
@@ -77,5 +87,19 @@ job_release_branch:
     - pwsh -f ./Build/scripts/Branch-Release.ps1 --% "${CI_COMMIT_TAG}"
   after_script:
     - git remote set-url origin "${GIT_RO_URL}"
+
+Push release packages:
+  stage: release
+  tags:
+    - docker
+  image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: '$NUGET_PUBLIC_ENABLED == "true"'
+  script:
+    - dotnet nuget push "Build/packages/output/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${NUGET_PUBLIC_APIKEY}
+  needs:
+    - job: Build project
+      artifacts: true
 
 

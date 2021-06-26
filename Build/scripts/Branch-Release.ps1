@@ -16,16 +16,16 @@ $versionData = @{
 };
 $shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $versionData.revision)).Trim(" ", "`r", "`n")
 
+$currentTag = "tags/$tid"
 $newBranch = "release/$shortVersion"
 
-git fetch -q 2>&1
+git fetch -q
 $checkBranch = git ls-remote --heads origin $newBranch 2>&1
-Write-Host "checked branch $newBranch result: $checkBranch"
 if ([string]::IsNullOrWhiteSpace($checkBranch)) {
     Write-Host "Creating release branch..."
     git checkout -qb $newBranch
     git push -q origin $newBranch
-    git checkout -q tags/$tid
+    git checkout -q $currentTag
     git branch -qD $newBranch
 } else {
     Write-Host "Branch already exists"
