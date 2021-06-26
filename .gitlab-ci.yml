@@ -42,7 +42,7 @@ job_build:
     - dotnet nuget remove source gitlab
   artifacts:
     paths:
-      - Build/tmp/packages
+      - Build/packages/output
     expire_in: 1 week
   needs:
     - job: job_version
