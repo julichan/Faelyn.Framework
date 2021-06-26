@@ -5,12 +5,15 @@ if ([string]::IsNullOrEmpty($tid)) {
 } 
 
 $versionRegex = [regex]::match($tid, "^v(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<revision>[0-9]+)$")
-$versionData = if (-not $versionRegex.Success) { @{ major = 0; minor = 0; revision = 0; } } 
-              else { @{ 
-                      major = $versionRegex.Groups['major'].Value -as [int]; 
-                      minor = $versionRegex.Groups['minor'].Value -as [int]; 
-                      revision = $versionRegex.Groups['revision'].Value -as [int]; 
-                    } };
+if (-not $versionRegex.Success) { 
+    Write-Error "Release branches can only be created from a tag" -ErrorAction Stop 
+} 
+
+$versionData = @{ 
+    major = $versionRegex.Groups['major'].Value -as [int]; 
+    minor = $versionRegex.Groups['minor'].Value -as [int]; 
+    revision = $versionRegex.Groups['revision'].Value -as [int]; 
+};
 $shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $versionData.revision)).Trim(" ", "`r", "`n")
 
 $newBranch = "release/$shortVersion"
