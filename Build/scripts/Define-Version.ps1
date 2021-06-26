@@ -1,9 +1,9 @@
 param (
-    [string] $bid = $null, #branch identifier
-    [string] $tid = $null, #tag identifier
-    [string] $mid = $null, #merge request identifier
-    [string] $cid = $null, #commit identifier
-    [string] $buildCounter = $null, 
+    [AllowEmptyString()] [string] $bid = $null, #branch identifier
+    [AllowEmptyString()] [string] $tid = $null, #tag identifier
+    [AllowEmptyString()] [string] $mid = $null, #merge request identifier
+    [AllowEmptyString()] [string] $cid = $null, #commit identifier
+    [AllowEmptyString()] [string] $buildCounter = $null, 
     [string] $envFile = $null,
     [switch] $customBuild)
 
