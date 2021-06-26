@@ -11,7 +11,7 @@ job_version:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || ( apk add --update --no-cache openssh-client )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$GIT_SSH_PRIVATE_KEY")
     - git config --global user.name "${GITLAB_USER_NAME}"
