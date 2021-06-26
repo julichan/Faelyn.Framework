@@ -33,8 +33,7 @@ Restore project:
   after_script:
     - dotnet nuget remove source gitlab
   artifacts:
-    paths:
-      - Build/packages/cache
+    untracked: true
     expire_in: 1 week
 
 Build project:
