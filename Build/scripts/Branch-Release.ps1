@@ -1,23 +1,24 @@
-param (
-    [string] $branch = $null,
-    [string] $version = $null)
+param ([string] $tid = $null)
 
-if ([string]::IsNullOrEmpty($branch)) {
-    $branch = git rev-parse --abbrev-ref HEAD 2>&1;
-}
-
-if (($branch -ne "master" -and $branch -notmatch "release/(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<revision>[0-9]+)")) { 
-    Write-Error "Release branches can only be created from tagged the master branch or a release branch." -ErrorAction Stop
+if ([string]::IsNullOrEmpty($tid)) { 
+    Write-Error "Release branches can only be created from a tag" -ErrorAction Stop
 } 
 
-$newBranch = "release/$version"
+$versionRegex = [regex]::match($tid, "^v(?<major>[0-9]+)\.(?<minor>[0-9]+)\.(?<revision>[0-9]+)$")
+$versionData = if (-not $versionRegex.Success) { @{ major = 0; minor = 0; revision = 0; } } 
+              else { @{ 
+                      major = $versionRegex.Groups['major'].Value -as [int]; 
+                      minor = $versionRegex.Groups['minor'].Value -as [int]; 
+                      revision = $versionRegex.Groups['revision'].Value -as [int]; 
+                    } };
+$shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $versionData.revision)).Trim(" ", "`r", "`n")
+
+$newBranch = "release/$shortVersion"
 $checkBranch = git ls-remote --heads origin $newBranch 2>&1
 if (-not [string]::IsNullOrWhiteSpace($checkBranch)) {
-    Write-Error "Branch already exists" -ErrorAction Stop
+    Write-Host "Creating release branch..."
+    git checkout -qb $newBranch
+    git push -q origin $newBranch
+    git checkout -q $branch
+    git branch -qD $newBranch
 }
-
-Write-Host "Creating release branch..."
-git checkout -qb $newBranch
-git push -q origin $newBranch
-git checkout -q $branch
-git branch -qD $newBranch
