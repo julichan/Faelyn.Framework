@@ -5,8 +5,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat> 
     <PackageVersion Condition="'$(PackageVersion)' == ''">0.0.0-dev</PackageVersion>
     <Authors>Julichan</Authors>
-    <Copyrights>MIT Julichan</Copyrights>
-    <ProjectUrl>https://gitlab.faelyn.net/julichan/Faelyn.Framework</ProjectUrl>
-    <RepositoryUrl>http://nuget.org</RepositoryUrl>
+    <Copyrights>Copyright (c) Julichan $([System.DateTime]::Now.ToString(yyyy))</Copyrights>
+    <ProjectUrl>https://github.com/julichan/Faelyn.Framework</ProjectUrl>
+    <RepositoryUrl>https://github.com/julichan/Faelyn.Framework</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>

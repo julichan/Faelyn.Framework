@@ -1,6 +1,4 @@
-<Project>
-    <Import Project="../Build/BaseDirectory.props" />
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../Build/BaseSettings.props" />
     <Import Project="../Build/CreatePackage.props" />
     
@@ -14,6 +12,4 @@
       <ProjectReference Include="..\Faelyn.Framework.Windows\Faelyn.Framework.Windows.csproj" />
       <ProjectReference Include="..\Faelyn.Framework\Faelyn.Framework.csproj" />
     </ItemGroup>
-
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 </Project>

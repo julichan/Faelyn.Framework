@@ -1,6 +1,4 @@
-<Project>
-    <Import Project="../Build/BaseDirectory.props" />
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
     <Import Project="../Build/BaseSettings.props" />
     <Import Project="../Build/CreatePackage.props" />
 
@@ -13,5 +11,4 @@
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
         <PackageReference Include="System.Runtime" Version="4.3.1" />
     </ItemGroup>
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>
