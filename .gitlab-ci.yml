@@ -94,8 +94,7 @@ Nuget release:
     - docker
   image: mcr.microsoft.com/dotnet/sdk:5.0-alpine3.12
   rules:
-    - if: $CI_COMMIT_TAG
-    - if: '$NUGET_PUBLIC_ENABLED == "true"'
+    - if: '$CI_COMMIT_TAG && $NUGET_PUBLIC_ENABLED == "true"'
   script:
     - dotnet nuget push "Build/packages/output/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${NUGET_PUBLIC_APIKEY}
   needs:
