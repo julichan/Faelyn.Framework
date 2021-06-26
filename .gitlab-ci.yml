@@ -13,11 +13,19 @@ job_version:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
-    - echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - |
+      GIT_SSH_PRIVATE_KEY=$'-----BEGIN OPENSSH PRIVATE KEY-----\n'
+      declare -a LineArray=($GIT_SSH_PRIVATE_KEY1 $GIT_SSH_PRIVATE_KEY2 $GIT_SSH_PRIVATE_KEY3 $GIT_SSH_PRIVATE_KEY4 $GIT_SSH_PRIVATE_KEY5 )
+      for fragment in ${LineArray[@]}; do
+        GIT_SSH_PRIVATE_KEY=$GIT_SSH_PRIVATE_KEY$fragment$'\n'
+      done
+      GIT_SSH_PRIVATE_KEY="${GIT_SSH_PRIVATE_KEY}-----END OPENSSH PRIVATE KEY-----"
+    - echo "$GIT_SSH_PRIVATE_KEY" | base64 -d | tr -d '\r' | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
-    - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
+    - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
+    - echo "${CI_SERVER_HOST} $GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
     - pwsh -c ./Build/scripts/Define-Version.ps1 "${CI_COMMIT_BRANCH}" "${CI_COMMIT_SHORT_SHA}" "${CI_PIPELINE_ID}" "build.env"
   artifacts:
@@ -76,11 +84,19 @@ job_release_branch:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
+    - |
+      GIT_SSH_PRIVATE_KEY=$'-----BEGIN OPENSSH PRIVATE KEY-----\n'
+      declare -a LineArray=($GIT_SSH_PRIVATE_KEY1 $GIT_SSH_PRIVATE_KEY2 $GIT_SSH_PRIVATE_KEY3 $GIT_SSH_PRIVATE_KEY4 $GIT_SSH_PRIVATE_KEY5 )
+      for fragment in ${LineArray[@]}; do
+        GIT_SSH_PRIVATE_KEY=$GIT_SSH_PRIVATE_KEY$fragment$'\n'
+      done
+      GIT_SSH_PRIVATE_KEY="${GIT_SSH_PRIVATE_KEY}-----END OPENSSH PRIVATE KEY-----"
     - echo "$GIT_SSH_PRIVATE_KEY" | ssh-add - > /dev/null
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
     - mkdir -p ~/.ssh
-    - echo "${CI_SERVER_HOST} ${GIT_SSH_PUBLIC_KEY_CRYPTO} ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
+    - GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED=$(eval "echo ${GIT_SSH_PUBLIC_KEY_CRYPTO} | base64 -d")
+    - echo "${CI_SERVER_HOST} $GIT_SSH_PUBLIC_KEY_CRYPTO_DECODED ${GIT_SSH_PUBLIC_KEY_DATA}" >> ~/.ssh/known_hosts
   script:
     - pwsh -c ./Build/scripts/Branch-Release.ps1 "${CI_COMMIT_BRANCH}" "${CI_SHORT_VER}"
   artifacts:
