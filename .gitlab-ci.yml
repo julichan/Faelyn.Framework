@@ -13,7 +13,15 @@ job_version:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
-    - GIT_SSH_PRIVATE_KEY="-----BEGIN OPENSSH PRIVATE KEY-----\n$GIT_SSH_PRIVATE_KEY1\n$GIT_SSH_PRIVATE_KEY2\n$GIT_SSH_PRIVATE_KEY3\n$GIT_SSH_PRIVATE_KEY4\n$GIT_SSH_PRIVATE_KEY5\n-----END OPENSSH PRIVATE KEY-----\n"
+    - | 
+      GIT_SSH_PRIVATE_KEY='
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      $GIT_SSH_PRIVATE_KEY1
+      $GIT_SSH_PRIVATE_KEY2
+      $GIT_SSH_PRIVATE_KEY3
+      $GIT_SSH_PRIVATE_KEY4
+      $GIT_SSH_PRIVATE_KEY5
+      -----END OPENSSH PRIVATE KEY-----'
     - echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
@@ -78,7 +86,15 @@ job_release_branch:
   before_script:
     - 'which ssh-agent || ( apk add --update --no-cache openssh )'
     - eval "$(ssh-agent -s)"
-    - GIT_SSH_PRIVATE_KEY="-----BEGIN OPENSSH PRIVATE KEY-----\n$GIT_SSH_PRIVATE_KEY1\n$GIT_SSH_PRIVATE_KEY2\n$GIT_SSH_PRIVATE_KEY3\n$GIT_SSH_PRIVATE_KEY4\n$GIT_SSH_PRIVATE_KEY5\n-----END OPENSSH PRIVATE KEY-----\n"
+    - | 
+      GIT_SSH_PRIVATE_KEY='
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      $GIT_SSH_PRIVATE_KEY1
+      $GIT_SSH_PRIVATE_KEY2
+      $GIT_SSH_PRIVATE_KEY3
+      $GIT_SSH_PRIVATE_KEY4
+      $GIT_SSH_PRIVATE_KEY5
+      -----END OPENSSH PRIVATE KEY-----'
     - echo "$GIT_SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - git config --global user.name "${GITLAB_USER_NAME}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
