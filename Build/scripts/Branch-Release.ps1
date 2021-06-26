@@ -15,7 +15,7 @@ $shortVersion = $(-join ($versionData.major, ".", $versionData.minor, ".", $vers
 
 $newBranch = "release/$shortVersion"
 $checkBranch = git ls-remote --heads origin $newBranch 2>&1
-if (-not [string]::IsNullOrWhiteSpace($checkBranch)) {
+if ([string]::IsNullOrWhiteSpace($checkBranch)) {
     Write-Host "Creating release branch..."
     git checkout -qb $newBranch
     git push -q origin $newBranch
